@@ -319,53 +319,6 @@
             </objects>
             <point key="canvasLocation" x="-131" y="378"/>
         </scene>
-        <!--Google Maps-->
-        <scene sceneID="Pfl-0j-3di">
-            <objects>
-                <viewController id="e9g-xH-PNI" customClass="GoogleMaps" customModule="wethr" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="KqP-bm-o8i"/>
-                        <viewControllerLayoutGuide type="bottom" id="vW7-Ni-RpU"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="mBx-Gq-Fcu">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <searchBar alpha="0.69999999999999996" contentMode="redraw" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="yRs-3z-TT2">
-                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="go" enablesReturnKeyAutomatically="YES"/>
-                            </searchBar>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1e1-M5-H0v">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="1e1-M5-H0v" secondAttribute="trailing" id="6Ny-Em-JLr"/>
-                            <constraint firstAttribute="trailing" secondItem="yRs-3z-TT2" secondAttribute="trailing" id="D2U-5K-YXX"/>
-                            <constraint firstItem="1e1-M5-H0v" firstAttribute="top" secondItem="mBx-Gq-Fcu" secondAttribute="topMargin" id="FsO-0b-uVR"/>
-                            <constraint firstItem="1e1-M5-H0v" firstAttribute="leading" secondItem="mBx-Gq-Fcu" secondAttribute="leading" id="Iyg-oa-u9f"/>
-                            <constraint firstItem="yRs-3z-TT2" firstAttribute="leading" secondItem="mBx-Gq-Fcu" secondAttribute="leading" id="Key-m6-OWZ"/>
-                            <constraint firstItem="vW7-Ni-RpU" firstAttribute="top" secondItem="1e1-M5-H0v" secondAttribute="bottom" id="bWT-oA-viX"/>
-                            <constraint firstItem="yRs-3z-TT2" firstAttribute="top" secondItem="KqP-bm-o8i" secondAttribute="bottom" id="ll8-bz-VyD"/>
-                            <constraint firstItem="1e1-M5-H0v" firstAttribute="top" secondItem="KqP-bm-o8i" secondAttribute="bottom" id="oAi-K1-S4J"/>
-                        </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="oAi-K1-S4J"/>
-                            </mask>
-                        </variation>
-                    </view>
-                    <connections>
-                        <outlet property="googleMapsContainer" destination="1e1-M5-H0v" id="N5c-X4-n6v"/>
-                        <outlet property="searchBar" destination="yRs-3z-TT2" id="LNA-tN-sOJ"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5mj-PJ-dZ3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="518" y="378"/>
-        </scene>
     </scenes>
     <resources>
         <image name="morning" width="500" height="750"/>

@@ -74,6 +74,19 @@ class WeatherDetails {
         print(_weatherUrl)
     }
     
+    func formatTime(time: String!) -> String {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.timeZone = NSTimeZone(name: "GMT")
+        let date = dateFormatter.dateFromString(time)
+        
+        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.timeZone = NSTimeZone.localTimeZone()
+        print(NSTimeZone.systemTimeZone())
+        let timeStamp = dateFormatter.stringFromDate(date!)
+        return timeStamp
+    }
+    
     func downloadWeather(completed: DownloadComplete) {
         let url = NSURL(string: _weatherUrl)!
         Alamofire.request(.GET, url).responseJSON { response in
@@ -104,25 +117,25 @@ class WeatherDetails {
                         self._max = "\(maxTempC)"
                     }
                     
-                    print("Temp:",self._currTemp)
-                    print("Pressure:", self._pressure)
-                    print("Humidity:", self._humidity)
-                    print("Min:", self._min)
-                    print("Max:", self._max)
+//                    print("Temp:",self._currTemp)
+//                    print("Pressure:", self._pressure)
+//                    print("Humidity:", self._humidity)
+//                    print("Min:", self._min)
+//                    print("Max:", self._max)
                 }
                 
                 if let cloudDict = dict["weather"] as? [Dictionary<String, AnyObject>] where cloudDict.count > 0 {
                     if let clouds = cloudDict[0]["description"] as? String {
                         self._cloudiness = clouds.capitalizedString
                     }
-                    print(self._cloudiness)
+//                    print(self._cloudiness)
                 }
                 
                 if let windy = dict["wind"] as? Dictionary<String, AnyObject> {
                     if let wind = windy["speed"] as? Double {
                         self._wind = "\(wind)"
                     }
-                    print("Wind speed:", self._wind)
+//                    print("Wind speed:", self._wind)
                 }
                 
                 if let sys = dict["sys"] as? Dictionary<String, AnyObject> {
@@ -132,7 +145,8 @@ class WeatherDetails {
                         let sunriseDate = NSDate(timeIntervalSince1970: epocSunriseTime)
                         print(sunriseDate)
                         let fullSunriseDateTime: String = "\(sunriseDate)"
-                        self._sunrise = fullSunriseDateTime.substringWithRange(fullSunriseDateTime.startIndex.advancedBy(11)..<fullSunriseDateTime.endIndex.advancedBy(-9))
+                        let sunriseBeforeCon = fullSunriseDateTime.substringWithRange(fullSunriseDateTime.startIndex.advancedBy(11)..<fullSunriseDateTime.endIndex.advancedBy(-9))
+                        self._sunrise = self.formatTime(sunriseBeforeCon)
                     }
                     
                     if let sunset = sys["sunset"] as? Int {
@@ -140,11 +154,12 @@ class WeatherDetails {
                         let epocSunsetTime = NSTimeInterval(sunset)
                         let sunsetDate = NSDate(timeIntervalSince1970: epocSunsetTime)
                         let fullSunsetDateTime: String = "\(sunsetDate)"
-                        self._sunset = fullSunsetDateTime.substringWithRange(fullSunsetDateTime.startIndex.advancedBy(11)..<fullSunsetDateTime.endIndex.advancedBy(-9))
+                        let sunsetBeforeCon = fullSunsetDateTime.substringWithRange(fullSunsetDateTime.startIndex.advancedBy(11)..<fullSunsetDateTime.endIndex.advancedBy(-9))
+                        self._sunset = self.formatTime(sunsetBeforeCon)
                     }
                     
-                    print("Sunrise:", self._sunrise)
-                    print("Sunset:", self._sunset)
+//                    print("Sunrise:", self._sunrise)
+//                    print("Sunset:", self._sunset)
                 }
             }
             completed()

@@ -8,7 +8,7 @@
 
 import UIKit
 import MapKit
-import CoreLocation
+import AddressBookUI
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
 
@@ -27,13 +27,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var weather: WeatherDetails!
     
     let locationManager = CLLocationManager()
-
     
     func updateUI() {
         
         tempLbl.text = "\(weather.currTemp) °C"
         cloudLbl.text = weather.cloudiness
-        cityLbl.text = weather.cityName
+//        cityLbl.text = weather.cityName
         windLbl.text = "\(weather.wind) m/s"
         pressureLbl.text = "\(weather.pressure) hps"
         humidityLbl.text = "\(weather.humidity)%"
@@ -46,16 +45,59 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        weather = WeatherDetails(cityName: "London,uk")
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//        weather = WeatherDetails(cityName: "London,uk")
         
-        weather.downloadWeather { () -> () in
-            
-            self.updateUI()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        locationAuthStatus()
+    }
+    
+    func locationAuthStatus() {
+        if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse {
+            locationManager.startUpdatingLocation()
+        } else {
+            locationManager.requestWhenInUseAuthorization()
         }
     }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        CLGeocoder().reverseGeocodeLocation(manager.location!) { (placemarks, error) in
+            if error != nil {
+                print(error)
+                return
+            }
+            else if placemarks?.count > 0 {
+                let pm = placemarks![0]
+                let city = "\(pm.addressDictionary!["City"]!)"
+                let spacelessCity = city.stringByReplacingOccurrencesOfString(" ", withString: "%20")
+//                let country = pm.addressDictionary!["Country"]!
+                self.cityLbl.text = city
+                self.weather = WeatherDetails(cityName: spacelessCity)
+                self.weather.downloadWeather { () -> () in
+                    
+                    self.updateUI()
+                }
+//                self.formatTime("11:42")
+            }
+        }
+    }
+    
+//    func formatTime(time: String!) {
+//        let dateFormatter = NSDateFormatter()
+//        dateFormatter.dateFormat = "HH:mm"
+//        dateFormatter.timeZone = NSTimeZone(name: "GMT")
+//        let date = dateFormatter.dateFromString(time)
+//        
+//        dateFormatter.dateFormat = "HH:mm"
+//        dateFormatter.timeZone = NSTimeZone.localTimeZone()
+//        print(NSTimeZone.systemTimeZone())
+//        let timeStamp = dateFormatter.stringFromDate(date!)
+//        print("Time: \(timeStamp)")
+//    }
 }
-
-
 
 
 
